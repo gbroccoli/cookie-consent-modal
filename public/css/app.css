@@ -63,16 +63,18 @@ header {
     text-align: center;
 }
 
-.hero h1 {
-    font-size: 3rem;
-    margin-bottom: 20px;
-    font-weight: 700;
-}
+.hero {
+    h1 {
+        font-size: 3rem;
+        margin-bottom: 20px;
+        font-weight: 700;
+    }
 
-.hero p {
-    font-size: 1.2rem;
-    margin-bottom: 30px;
-    opacity: 0.9;
+    p {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        opacity: 0.9;
+    }
 }
 
 .download-btn {
@@ -86,12 +88,14 @@ header {
     font-size: 1.1rem;
     transition: all 0.3s ease;
     box-shadow: var(--shadow-medium);
-}
 
-.download-btn:hover {
-    background: #45a049;
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-heavy);
+    @media (hover: hover) {
+        &:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-heavy);
+        }
+    }
 }
 
 /* Navigation */
@@ -101,28 +105,29 @@ nav {
     position: sticky;
     top: 0;
     z-index: 100;
-}
 
-nav ul {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-}
+    ul {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+    }
 
-nav a {
-    color: var(--white);
-    text-decoration: none;
-    font-weight: 500;
-    padding: 10px 15px;
-    border-radius: 5px;
-    transition: background 0.3s ease;
-}
+    a {
+        color: var(--white);
+        text-decoration: none;
+        font-weight: 500;
+        padding: 10px 15px;
+        border-radius: 5px;
+        transition: background 0.3s ease;
 
-nav a:hover {
-    background: rgba(255, 255, 255, 0.1);
+        @media (hover: hover) {
+            &:hover {
+                background: rgba(255, 255, 255, 0.1);
+            }
+        }
+    }
 }
-
 /* Sections */
 section {
     padding: 60px 0;
