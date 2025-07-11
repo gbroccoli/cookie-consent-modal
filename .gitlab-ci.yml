@@ -1,27 +1,17 @@
 image: node:22
 
 stages:
-  - build
   - deploy
 
 cache:
   paths:
     - node_modules/
 
-before_script:
-  - npm ci
-
-build:
-  stage: build
-  script:
-    - npm run build
-  artifacts:
-    paths:
-      - dist
-
 pages:
   stage: deploy
   script:
+    - npm install
+    - npm run build
     - cp dist/cookies.min.js public/cookies.min.js
   artifacts:
     paths:
