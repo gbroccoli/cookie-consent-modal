@@ -1,6 +1,5 @@
 @import "reset.css" layer(base);
 
-
 @layer theme, base, framework, componenst, utilities;
 
 @layer theme {
@@ -36,17 +35,21 @@
     }
 }
 
+@layer base {
+    body {
+        font-family: "IBM Plex Sans", sans-serif;
+        line-height: 1.6;
+        color: var(--primary-text);
+        background-color: var(--primary-bg);
+        font-variation-settings:
+                "wdth" 100;
+    }
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
-
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    line-height: 1.6;
-    color: var(--primary-text);
-    background-color: var(--primary-bg);
 }
 
 .container {
@@ -128,6 +131,7 @@ nav {
         }
     }
 }
+
 /* Sections */
 section {
     padding: 60px 0;
