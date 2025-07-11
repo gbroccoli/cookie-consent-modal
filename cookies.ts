@@ -77,6 +77,10 @@ import css from "./cookies.css?inline"
             main.remove()
         })
 
+        if (urlParams.get('btn-class')) {
+            btn.classList.add(<string>urlParams.get('btn-class'))
+        }
+
         if (icon) {
             header.appendChild(icon)
         }

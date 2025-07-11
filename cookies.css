@@ -149,7 +149,7 @@
         }
     }
 
-    #cookies-btn {
+    #cookies-btn:not([class]) {
         padding: var(--cookies-btn-padding);
         align-self: flex-end;
         transition: all .5s ease-in-out;
