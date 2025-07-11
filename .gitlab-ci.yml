@@ -1,4 +1,4 @@
-image: bun
+image: node:22
 
 stages:
   - deploy
