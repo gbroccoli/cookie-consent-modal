@@ -156,6 +156,7 @@
         border-radius: var(--coolies-btn-radius);
         background: var(--cookies-btn-bg);
         color: var(--cookies-btn-text-color);
+        border: none;
 
         @media screen and (width <= 550px) {
             & {

@@ -1,6 +1,6 @@
 import css from "./cookies.css?inline"
 
-(() => {
+(function () {
     function setCookie(name: string, value: string, days: number): void {
         const date = new Date();
         date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
@@ -108,6 +108,8 @@ import css from "./cookies.css?inline"
 
     const isIcon = ['true', '1', 'yes'].includes(urlParams.get('icon')?.toLowerCase() || '');
 
-    applyStyles(urlParams.get('style-url')!, () => {generateStyle()});
+    applyStyles(urlParams.get('style-url')!, () => {
+        generateStyle()
+    });
     generateModalCookies(policyUrl, isIcon, COOKIES_KEY)
 })();
