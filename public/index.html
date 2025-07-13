@@ -193,94 +193,97 @@
                 <div class="code-title">Пример кастомного CSS файла</div>
                 <button class="copy-btn" onclick="copyCode(this)">Копировать</button>
             </div>
-            <pre><code>/* custom-cookies-styles.css */
-:root {
-    /* Основные цвета и фон */
-    --cookies-bg: hsl(220, 26%, 14%);
+            <pre>
+                <code>
+                    /* custom-cookies-styles.css */
+                    :root {
+                        /* Основные цвета и фон */
+                        --cookies-bg: hsl(220, 26%, 14%);
 
-    /* Тень */
-    --cookies-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.3);
+                        /* Тень */
+                        --cookies-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.3);
 
-    /* Радиус и отступы */
-    --cookies-radius: 15px;
-    --cookies-padding: 25px;
+                        /* Радиус и отступы */
+                        --cookies-radius: 15px;
+                        --cookies-padding: 25px;
 
-    /* Позиционирование */
-    --cookies-left: 30px;
-    --cookies-bottom: 30px;
-    --cookies-left-mobile: 15px;
-    --cookies-bottom-mobile: 15px;
+                        /* Позиционирование */
+                        --cookies-left: 30px;
+                        --cookies-bottom: 30px;
+                        --cookies-left-mobile: 15px;
+                        --cookies-bottom-mobile: 15px;
 
-    /* Отступы между элементами */
-    --cookies-line-gap: 15px;
-    --cookies-marginn-top-elements: 20px;
+                        /* Отступы между элементами */
+                        --cookies-line-gap: 15px;
+                        --cookies-marginn-top-elements: 20px;
 
-    /* Иконка */
-    --cookies-icon-size: 45px;
-    --cookies-icon-font-size: 20px;
-    --cookies-icon-border: 50%;
-    --cookies-icon-bg: hsl(142, 71%, 45%);
-    --cookies-icon-color: hsl(0, 0%, 100%);
+                        /* Иконка */
+                        --cookies-icon-size: 45px;
+                        --cookies-icon-font-size: 20px;
+                        --cookies-icon-border: 50%;
+                        --cookies-icon-bg: hsl(142, 71%, 45%);
+                        --cookies-icon-color: hsl(0, 0%, 100%);
 
-    /* Заголовок */
-    --cookies-title-size: 1.4rem;
-    --cookies-margin-top: 0;
-    --cookies-margin-bottom: 10px;
-    --cookies-margin-left: 0;
-    --cookies-margin-right: 0;
+                        /* Заголовок */
+                        --cookies-title-size: 1.4rem;
+                        --cookies-margin-top: 0;
+                        --cookies-margin-bottom: 10px;
+                        --cookies-margin-left: 0;
+                        --cookies-margin-right: 0;
 
-    /* Текст */
-    --cookies-text-color: hsl(0, 0%, 90%);
-    --cookies-text-link: hsl(142, 71%, 65%);
-    --cookies-text-link-hover: hsl(142, 71%, 75%);
+                        /* Текст */
+                        --cookies-text-color: hsl(0, 0%, 90%);
+                        --cookies-text-link: hsl(142, 71%, 65%);
+                        --cookies-text-link-hover: hsl(142, 71%, 75%);
 
-    /* Кнопка */
-    --cookies-btn-bg: hsl(142, 71%, 45%);
-    --cookies-btn-bg-hover: hsl(142, 71%, 55%);
-    --cookies-btn-text-color: hsl(0, 0%, 100%);
-    --cookies-btn-text-color-hover: hsl(0, 0%, 100%);
-    --coolies-btn-radius: 8px;
-    --cookies-btn-padding: 12px 25px;
-}
+                        /* Кнопка */
+                        --cookies-btn-bg: hsl(142, 71%, 45%);
+                        --cookies-btn-bg-hover: hsl(142, 71%, 55%);
+                        --cookies-btn-text-color: hsl(0, 0%, 100%);
+                        --cookies-btn-text-color-hover: hsl(0, 0%, 100%);
+                        --coolies-btn-radius: 8px;
+                        --cookies-btn-padding: 12px 25px;
+                    }
 
-/* Дополнительные стили для темной темы */
-#cookies {
-    backdrop-filter: blur(10px);
-    border: 1px solid hsla(0, 0%, 100%, 0.1);
-}
+                    /* Дополнительные стили для темной темы */
+                    #cookies {
+                        backdrop-filter: blur(10px);
+                        border: 1px solid hsla(0, 0%, 100%, 0.1);
+                    }
 
-#cookies-title {
-    color: hsl(0, 0%, 95%);
-    font-weight: 600;
-}
+                    #cookies-title {
+                        color: hsl(0, 0%, 95%);
+                        font-weight: 600;
+                    }
 
-#cookies-btn {
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
-}
+                    #cookies-btn {
+                        font-weight: 600;
+                        cursor: pointer;
+                        box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+                    }
 
-#cookies-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(76, 175, 80, 0.4);
-}
+                    #cookies-btn:hover {
+                        transform: translateY(-1px);
+                        box-shadow: 0 6px 16px rgba(76, 175, 80, 0.4);
+                    }
 
-/* Анимация появления */
-#cookies {
-    animation: slideUp 0.4s ease-out;
-}
+                    /* Анимация появления */
+                    #cookies {
+                        animation: slideUp 0.4s ease-out;
+                    }
 
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-</code></pre>
+                    @keyframes slideUp {
+                        from {
+                            opacity: 0;
+                            transform: translateY(20px);
+                        }
+                        to {
+                            opacity: 1;
+                            transform: translateY(0);
+                        }
+                    }
+                </code>
+            </pre>
         </div>
 
         <div class="alert alert-error">
