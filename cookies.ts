@@ -1,6 +1,6 @@
 import css from "./cookies.css?inline"
 
-(function () {
+(function (): null | undefined {
     function setCookie(name: string, value: string, days: number): void {
         const date = new Date();
         date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
@@ -8,7 +8,7 @@ import css from "./cookies.css?inline"
     }
 
     function getCookie(name: string): string | null {
-        const cookies = document.cookie.split('; ');
+        const cookies: string[] = document.cookie.split('; ');
         for (const cookie of cookies) {
             const [key, val] = cookie.split('=');
             if (key === name) return val;
@@ -18,7 +18,7 @@ import css from "./cookies.css?inline"
 
     function applyStyles(styleUrl: string, fallback: () => void) {
         if (styleUrl) {
-            const link = document.createElement('link');
+            const link: HTMLLinkElement = document.createElement('link');
             link.rel = 'stylesheet';
             link.href = styleUrl;
             document.head.appendChild(link);
@@ -28,7 +28,7 @@ import css from "./cookies.css?inline"
     }
 
     function generateStyle(): void {
-        const style = document.createElement('style');
+        const style: HTMLStyleElement = document.createElement('style');
         style.textContent = css;
         document.head.appendChild(style);
     }
@@ -62,10 +62,7 @@ import css from "./cookies.css?inline"
 
         const text: HTMLParagraphElement = document.createElement('p')
         text.id = "cookies-text"
-        text.innerHTML = `
-            Наш сайт использует файлы cookie для улучшения работы сайта, данные обрабатываются с использованием интернет-сервиса Яндекс.Метрика. Продолжая использовать сайт, вы соглашаетесь с использованием cookie в соответствии с нашей
-            <a href="${urlPolicy}" target="_blank" rel="noopener noreferrer">политикой конфиденциальности</a>.
-        `
+        text.innerHTML = `Наш сайт использует файлы cookie для улучшения работы сайта, данные обрабатываются с использованием интернет-сервиса Яндекс.Метрика. Продолжая использовать сайт, вы соглашаетесь с использованием cookie в соответствии с нашей <a href="${urlPolicy}" target="_blank" rel="noopener noreferrer">политикой конфиденциальности</a>.`
 
         const btn: HTMLButtonElement = document.createElement('button')
         btn.id = "cookies-btn"
@@ -95,22 +92,22 @@ import css from "./cookies.css?inline"
         document.body.appendChild(main)
     }
 
-    const COOKIES_KEY = 'cookieAccepted'
+    const COOKIES_KEY: string = 'cookieAccepted'
 
     if (getCookie(COOKIES_KEY) === "true") return null
 
-    const currentScript = document.currentScript || [...Array.from(document.scripts)].pop()!;
-    const scriptSrc = currentScript.getAttribute('src') || '';
-    const queryString = scriptSrc.split('?')[1] || '';
+    const currentScript: HTMLOrSVGScriptElement = document.currentScript || [...Array.from(document.scripts)].pop()!;
+    const scriptSrc: string = currentScript.getAttribute('src') || '';
+    const queryString: string = scriptSrc.split('?')[1] || '';
     const urlParams = new URLSearchParams(queryString);
 
-    let policyUrl = urlParams.get('policy-url') ?? null;
+    let policyUrl: string | null = urlParams.get('policy-url') ?? null;
 
     if (!policyUrl?.trim()) {
         policyUrl = "/politika"
     }
 
-    const isIcon = ['true', '1', 'yes'].includes(urlParams.get('icon')?.toLowerCase() || '');
+    const isIcon: boolean = ['true', '1', 'yes'].includes(urlParams.get('icon')?.toLowerCase() || '');
 
     applyStyles(urlParams.get('style-url')!, () => {
         generateStyle()

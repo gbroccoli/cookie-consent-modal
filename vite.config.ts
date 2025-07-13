@@ -1,6 +1,8 @@
 import { defineConfig } from 'vite'
 import path from 'path'
 import cssnano from 'cssnano'
+import fs from 'fs';
+const version = JSON.parse(fs.readFileSync('./package.json', 'utf-8')).version;
 
 export default defineConfig({
     build: {
@@ -9,10 +11,12 @@ export default defineConfig({
         cssCodeSplit: false,
         assetsInlineLimit: 0,
         minify: 'terser',
+        sourcemap: false,
         terserOptions: {
             mangle: false,
             format: {
                 beautify: false,
+                preamble: `/*! CookiesModal v${version} */`
             },
             compress: {
                 drop_console: false,

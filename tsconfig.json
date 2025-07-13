@@ -9,7 +9,11 @@
     "isolatedModules": true,
     "lib": ["DOM", "ESNext"],
     "baseUrl": "./",
-    "types": ["vite/client"]
+    "types": ["vite/client"],
+    "sourceMap": true,
+    "declaration": true,
+    "declarationDir": "types",
+    "emitDeclarationOnly": true
   },
   "include": ["./**/*.ts", "./**/*.js", "./**/*.d.ts", "./**/*.css"],
   "exclude": ["dist", "node_modules"]
