@@ -10,8 +10,8 @@ cache:
 pages:
   stage: deploy
   script:
-    - npm install
-    - npm run build
+    - bun install
+    - bun run build
     - cp dist/cookies.min.js public/cookies.min.js
   artifacts:
     paths:
