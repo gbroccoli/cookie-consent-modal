@@ -11,6 +11,9 @@ pages:
   stage: deploy
   script:
     - bun install
+    - apk add --no-cache jq
+    - VERSION=$(jq -r .version package.json)
+    - sed -i "s/{{VERSION}}/v${VERSION}/g" public/index.html
     - bun run build
     - cp dist/cookies.min.js public/cookies.min.js
   artifacts:
