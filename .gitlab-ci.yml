@@ -20,7 +20,7 @@ pages:
     - bun run build
     - cp dist/cookies.min.js public/cookies.min.js
     - FILE_SIZE=$(stat -c%s public/cookies.min.js)
-    - FILE_SIZE_KB=$(echo "scale=1; $FILE_SIZE / 1024" | bc)
+    - FILE_SIZE_KB=$(echo "scale=1; $FILE_SIZE / 1000" | bc)
     - sed -i "s/{{FILE_SIZE}}/${FILE_SIZE_KB}/g" public/index.html
   artifacts:
     paths:
