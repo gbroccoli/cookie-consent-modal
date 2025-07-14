@@ -1,38 +1,8 @@
 import css from "./cookies.css?inline"
+import {getCookie, setCookie} from "./utils/cookies";
+import {applyStyles, generateStyle} from "./utils/styles";
 
 ((): null | undefined => {
-    function setCookie(name: string, value: string, days: number): void {
-        const date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        document.cookie = `${name}=${value}; path=/; expires=${date.toUTCString()}`;
-    }
-
-    function getCookie(name: string): string | null {
-        const cookies: string[] = document.cookie.split('; ');
-        for (const cookie of cookies) {
-            const [key, val] = cookie.split('=');
-            if (key === name) return val;
-        }
-        return null;
-    }
-
-    function applyStyles(styleUrl: string, fallback: () => void) {
-        if (styleUrl) {
-            const link: HTMLLinkElement = document.createElement('link');
-            link.rel = 'stylesheet';
-            link.href = styleUrl;
-            document.head.appendChild(link);
-        } else {
-            fallback(); // если кастом не задан, подключаем стандартный стиль
-        }
-    }
-
-    function generateStyle(): void {
-        const style: HTMLStyleElement = document.createElement('style');
-        style.textContent = css;
-        document.head.appendChild(style);
-    }
-
     function generateModalCookies(urlPolicy: string, isIcon: boolean = false, cookieName: string, daysCookies: number = 365): void {
         let icon: HTMLDivElement | null = null
 
@@ -110,7 +80,7 @@ import css from "./cookies.css?inline"
     const isIcon: boolean = ['true', '1', 'yes'].includes(urlParams.get('icon')?.toLowerCase() || '');
 
     applyStyles(urlParams.get('style-url')!, () => {
-        generateStyle()
+        generateStyle(css)
     });
     generateModalCookies(policyUrl, isIcon, COOKIES_KEY)
 })();
