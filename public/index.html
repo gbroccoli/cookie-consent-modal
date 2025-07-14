@@ -369,5 +369,43 @@
         </footer>
 
         <script src="js/app.js"></script>
+
+        <div id="cookies" class="noshow">
+            <div id="cookies-wrapper">
+                <div class="cookies-line">
+                    <div id="cookies-icon">
+                        🍪
+                    </div>
+                    <h2 id="cookies-title">Наш сайт использует cookies</h2>
+                </div>
+                <div class="cookies-line">
+                    <p id="cookies-text">
+                        Мы используем cookies и систему аналитики Яндекс.Метрика, чтобы понять, как вы пользуетесь сайтом, и сделать его лучше.<br>
+                        Продолжая пользоваться сайтом, вы соглашаетесь на использование cookies.
+                    </p>
+                </div>
+                <div id="cookies-btn-group">
+                    <button type="button" class="cookies-btn-success">Хорошо</button>
+                    <button type="button" class="cookies-btn-close">Закрыть</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Yandex.Metrika counter -->
+        <script type="text/javascript" >
+            (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+                m[i].l=1*new Date();
+                for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+                k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+            (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+            ym(103322248, "init", {
+                clickmap:true,
+                trackLinks:true,
+                accurateTrackBounce:true
+            });
+        </script>
+        <noscript><div><img src="https://mc.yandex.ru/watch/103322248" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+        <!-- /Yandex.Metrika counter -->
     </body>
 </html>

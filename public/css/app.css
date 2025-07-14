@@ -1,4 +1,5 @@
 @import 'reset.css' layer(base);
+@import 'solid.css' layer(theme);
 
 @layer theme, base, framework, componenst, utilities;
 
@@ -43,12 +44,6 @@
         background-color: var(--primary-bg);
         font-variation-settings: 'wdth' 100;
     }
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
 }
 
 .container {
@@ -389,5 +384,85 @@ footer {
 
     .params-table {
         overflow-x: auto;
+    }
+}
+
+@layer cookies {
+    #cookies {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        background: hsl(0, 0%, 100%);
+        border-radius: var(--border-radius-large);
+        padding: 30px;
+        max-width: 550px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+        &.noshow {
+            display: none;
+        }
+
+        #cookies-wrapper {
+            display: flex;
+            flex-direction: column;
+
+            & > * + * {
+                margin-top: 1rem;
+            }
+
+            .cookies-line {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+            }
+
+            #cookies-icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: var(--primary-green);
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+
+                font-size: 1.5rem;
+            }
+
+            #cookies-title {
+                font-weight: 700;
+                font-size: 1.2rem;
+            }
+
+            #cookies-text {
+                padding-left: calc(50px + 20px);
+            }
+
+            #cookies-btn-group {
+                align-self: flex-end;
+                display: flex;
+                align-items: center;
+                gap: 20px;
+
+                button {
+                    background: var(--primary-green);
+                    color: var(--white);
+                    padding: 10px 25px;
+                    text-decoration: none;
+                    border-radius: var(--border-radius);
+                    font-weight: 600;
+                    font-size: 1.1rem;
+                    transition: all 0.3s ease;
+                    box-shadow: var(--shadow-medium);
+
+                    @media (hover: hover) {
+                        &:hover {
+                            background: hsl(123, 40%, 45%);
+                            transform: translateY(-2px);
+                            box-shadow: var(--shadow-heavy);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
