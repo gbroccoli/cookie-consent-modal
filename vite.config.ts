@@ -16,7 +16,7 @@ export default defineConfig({
             mangle: false,
             format: {
                 beautify: false,
-                preamble: `/*! CookiesModal v${version} */`,
+                preamble: `/*! CookiesModal v${version} Official doc: https://bogdankuzmenko.gitlab.io/cookies-modal/ */`,
             },
             compress: {
                 drop_console: false,
