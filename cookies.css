@@ -1,5 +1,4 @@
 :root {
-
     /*  colors & bg  */
     --cookies-bg: hsl(0, 0%, 100%);
 
@@ -42,7 +41,6 @@
     --cookies-text-color: hsl(0, 0%, 0%);
     --cookies-text-link: hsl(0, 100%, 50%);
     --cookies-text-link-hover: hsl(0, 39%, 51%);
-
 
     /*  button  */
     --cookies-btn-bg: hsl(0, 0%, 0%);
@@ -116,7 +114,8 @@
 
         #cookies-title {
             font-size: var(--cookies-title-size);
-            margin: var(--cookies-margin-top) var(--cookies-margin-right) var(--cookies-margin-bottom) var(--cookies-margin-left);
+            margin: var(--cookies-margin-top) var(--cookies-margin-right)
+                var(--cookies-margin-bottom) var(--cookies-margin-left);
             text-align: center;
         }
 
@@ -137,7 +136,7 @@
                 }
             }
             a {
-                transition: all .5s ease-in-out;
+                transition: all 0.5s ease-in-out;
                 color: var(--cookies-text-link);
 
                 @media (hover: hover) {
@@ -152,7 +151,7 @@
     #cookies-btn:not([class]) {
         padding: var(--cookies-btn-padding);
         align-self: flex-end;
-        transition: all .5s ease-in-out;
+        transition: all 0.5s ease-in-out;
         border-radius: var(--coolies-btn-radius);
         background: var(--cookies-btn-bg);
         color: var(--cookies-btn-text-color);

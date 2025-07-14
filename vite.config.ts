@@ -1,7 +1,7 @@
-import { defineConfig } from 'vite'
-import path from 'path'
-import cssnano from 'cssnano'
+import cssnano from 'cssnano';
 import fs from 'fs';
+import path from 'path';
+import { defineConfig } from 'vite';
 const version = JSON.parse(fs.readFileSync('./package.json', 'utf-8')).version;
 
 export default defineConfig({
@@ -16,7 +16,7 @@ export default defineConfig({
             mangle: false,
             format: {
                 beautify: false,
-                preamble: `/*! CookiesModal v${version} */`
+                preamble: `/*! CookiesModal v${version} */`,
             },
             compress: {
                 drop_console: false,
@@ -28,8 +28,8 @@ export default defineConfig({
             output: {
                 entryFileNames: 'cookies.min.js',
                 assetFileNames: () => {
-                    throw new Error('Assets are not allowed')
-                }
+                    throw new Error('Assets are not allowed');
+                },
             },
         },
     },
@@ -37,14 +37,20 @@ export default defineConfig({
         postcss: {
             plugins: [
                 cssnano({
-                    preset: ['default', {
-                        normalizeWhitespace: true,
-                        minifySelectors: false,
-                        discardComments: { removeAll: true },
-                    }],
+                    preset: [
+                        'default',
+                        {
+                            normalizeWhitespace: true,
+                            minifySelectors: false,
+                            discardComments: { removeAll: true },
+                        },
+                    ],
                 }),
             ],
         },
     },
     publicDir: false,
-})
+    esbuild: {
+        drop: ['console', 'debugger'],
+    },
+});

@@ -1,16 +1,16 @@
-@import "reset.css" layer(base);
+@import 'reset.css' layer(base);
 
 @layer theme, base, framework, componenst, utilities;
 
 @layer theme {
     :root {
         /* Основные цвета */
-        --primary-bg: #F5F8FA;
-        --primary-green: #4CAF50;
-        --primary-teal: #00796B;
+        --primary-bg: #f5f8fa;
+        --primary-green: #4caf50;
+        --primary-teal: #00796b;
         --primary-text: #333333;
-        --error-red: #F44336;
-        --warning-yellow: #FFC107;
+        --error-red: #f44336;
+        --warning-yellow: #ffc107;
 
         /* Дополнительные цвета */
         --white: #ffffff;
@@ -37,12 +37,11 @@
 
 @layer base {
     body {
-        font-family: "IBM Plex Sans", sans-serif;
+        font-family: 'IBM Plex Sans', sans-serif;
         line-height: 1.6;
         color: var(--primary-text);
         background-color: var(--primary-bg);
-        font-variation-settings:
-                "wdth" 100;
+        font-variation-settings: 'wdth' 100;
     }
 }
 

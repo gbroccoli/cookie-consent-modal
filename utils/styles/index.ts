@@ -1,4 +1,4 @@
-export function applyStyles(styleUrl: string, fallback: () => void) {
+export function applyStyles(styleUrl: string, fallback: () => void): void {
     if (styleUrl) {
         const link: HTMLLinkElement = document.createElement('link');
         link.rel = 'stylesheet';
