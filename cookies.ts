@@ -2,8 +2,6 @@ import css from './cookies.css?inline';
 import { getCookie, setCookie } from './utils/cookies';
 import { applyStyles, generateStyle } from './utils/styles';
 
-const test = 42
-
 ((): null | undefined => {
     function generateModalCookies(
         urlPolicy: string,
