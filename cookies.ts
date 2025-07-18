@@ -1,6 +1,7 @@
 import css from './cookies.css?inline';
-import { getCookie, setCookie } from './utils/cookies';
-import { applyStyles, generateStyle } from './utils/styles';
+import {getCookie, setCookie} from './utils/cookies';
+import {applyStyles, generateStyle, parseClassList} from './utils/styles';
+import { isEmpty } from "lodash"
 
 ((): null | undefined => {
     function generateModalCookies(
@@ -49,8 +50,10 @@ import { applyStyles, generateStyle } from './utils/styles';
             main.remove();
         });
 
-        if (urlParams.get('btn-class')) {
-            btn.classList.add(<string>urlParams.get('btn-class'));
+        const classes = parseClassList(urlParams.get('btn-class'))
+        if (!isEmpty(classes)) {
+            alert("Не пуст")
+            btn.classList.add(...classes);
         }
 
         if (icon) {

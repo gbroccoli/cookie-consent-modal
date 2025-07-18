@@ -14,3 +14,9 @@ export function generateStyle(css: string): void {
     style.textContent = css;
     document.head.appendChild(style);
 }
+
+export function parseClassList(param: string | null): string[] {
+    return param
+        ? param.split(/\s+/).map(cls => cls.trim()).filter(Boolean)
+        : []
+}
