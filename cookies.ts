@@ -1,7 +1,7 @@
 import css from './cookies.css?inline';
 import {getCookie, setCookie} from './utils/cookies';
 import {applyStyles, generateStyle, parseClassList} from './utils/styles';
-import { isEmpty } from "lodash"
+import {isEmpty} from "./utils/array";
 
 ((): null | undefined => {
     function generateModalCookies(
