@@ -2,6 +2,7 @@ import css from './cookies.css?inline';
 import {getCookie, setCookie} from './utils/cookies';
 import {applyStyles, generateStyle, parseClassList} from './utils/styles';
 import {isEmpty} from "./utils/array";
+import {getScriptParams} from "./utils/params";
 
 ((): null | undefined => {
     function generateModalCookies(
@@ -52,7 +53,6 @@ import {isEmpty} from "./utils/array";
 
         const classes = parseClassList(urlParams.get('btn-class'))
         if (!isEmpty(classes)) {
-            alert("Не пуст")
             btn.classList.add(...classes);
         }
 
@@ -72,13 +72,9 @@ import {isEmpty} from "./utils/array";
 
     const COOKIES_KEY: string = 'cookieAccepted';
 
-    if (getCookie(COOKIES_KEY) === 'true') return null;
+    if (getCookie(COOKIES_KEY) == 'true') return null;
 
-    const currentScript: HTMLOrSVGScriptElement =
-        document.currentScript || [...Array.from(document.scripts)].pop()!;
-    const scriptSrc: string = currentScript.getAttribute('src') || '';
-    const queryString: string = scriptSrc.split('?')[1] || '';
-    const urlParams = new URLSearchParams(queryString);
+    const urlParams = getScriptParams()
 
     let policyUrl: string | null = urlParams.get('policy-url') ?? null;
 
@@ -88,7 +84,7 @@ import {isEmpty} from "./utils/array";
 
     const isIcon: boolean = ['true', '1', 'yes'].includes(
         urlParams.get('icon')?.toLowerCase() || ''
-    );
+    )
 
     applyStyles(urlParams.get('style-url')!, () => {
         generateStyle(css);
