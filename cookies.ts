@@ -86,11 +86,26 @@ import {getScriptParams} from "./utils/params";
         urlParams.get('icon')?.toLowerCase() || ''
     )
 
+    let days: string | number | null | undefined = urlParams.get('days')
+
+    if (!isNaN(Number(days)) && Number.isInteger(Number(days))) {
+
+        if (Number(days) >= 0) {
+            days = Number(days)
+        } else {
+            days = undefined
+        }
+        console.log("Я число!")
+    } else {
+        console.log("Я не число!")
+        days = undefined
+    }
+
     applyStyles(urlParams.get('style-url')!, () => {
         generateStyle(css);
     });
 
-    generateModalCookies(policyUrl, isIcon, COOKIES_KEY);
+    generateModalCookies(policyUrl, isIcon, COOKIES_KEY, days);
 
     return null;
 })();

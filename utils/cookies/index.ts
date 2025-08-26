@@ -1,7 +1,14 @@
 export function setCookie(name: string, value: string, days: number): void {
-    const date = new Date();
-    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-    document.cookie = `${name}=${value}; path=/; expires=${date.toUTCString()}`;
+    const pair = `${encodeURIComponent(name)}=${encodeURIComponent(value)}`;
+
+    if (days > 0) {
+        const date = new Date();
+        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+        document.cookie = `${pair}; expires=${date.toUTCString()}`;
+    } else {
+        // сессионная кука — без expires
+        document.cookie = pair;
+    }
 }
 
 export function getCookie(name: string): string | null {
