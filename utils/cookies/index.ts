@@ -1,5 +1,5 @@
 export function setCookie(name: string, value: string, days: number): void {
-    const pair = `path=/; ${encodeURIComponent(name)}=${encodeURIComponent(value)}`;
+    const pair = `${encodeURIComponent(name)}=${encodeURIComponent(value)}`;
 
     if (days > 0) {
         const date = new Date();
