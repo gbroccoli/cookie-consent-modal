@@ -4,6 +4,9 @@ import {applyStyles, generateStyle, parseClassList} from './utils/styles';
 import {isEmpty} from "./utils/array";
 import {getScriptParams} from "./utils/params";
 
+
+
+
 ((): null | undefined => {
     function generateModalCookies(
         urlPolicy: string,
@@ -39,7 +42,7 @@ import {getScriptParams} from "./utils/params";
 
         const text: HTMLParagraphElement = document.createElement('p');
         text.id = 'cookies-text';
-        text.innerHTML = `Наш сайт использует файлы cookie для улучшения работы сайта, данные обрабатываются с использованием интернет-сервиса Яндекс.Метрика. Продолжая использовать сайт, вы соглашаетесь с использованием cookie в соответствии с нашей <a href="${urlPolicy}" target="_blank" rel="noopener noreferrer">политикой конфиденциальности</a>.`;
+        text.innerHTML = `Наш сайт использует файлы cookies для улучшения работы сайта, данные обрабатываются с использованием интернет-сервиса Яндекс.Метрика. Продолжая использовать сайт, вы соглашаетесь с использованием cookie в соответствии с нашей <a href="${urlPolicy}" target="_blank" rel="noopener noreferrer">политикой конфиденциальности</a>.`;
 
         const btn: HTMLButtonElement = document.createElement('button');
         btn.id = 'cookies-btn';
@@ -88,18 +91,7 @@ import {getScriptParams} from "./utils/params";
 
     let days: string | number | null | undefined = urlParams.get('days')
 
-    if (!isNaN(Number(days)) && Number.isInteger(Number(days))) {
-
-        if (Number(days) >= 0) {
-            days = Number(days)
-        } else {
-            days = undefined
-        }
-        console.log("Я число!")
-    } else {
-        console.log("Я не число!")
-        days = undefined
-    }
+    days = !isNaN(Number(days)) && Number.isInteger(Number(days)) ? Number(days) >= 0 ? Number(days) : undefined : undefined
 
     applyStyles(urlParams.get('style-url')!, () => {
         generateStyle(css);
