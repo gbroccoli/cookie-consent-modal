@@ -135,6 +135,13 @@
                     </div>
                     <pre><code>&lt;script src="cookies.min.js?policy-url=https://example.com/privacy" async defer&gt;&lt;/script&gt;</code></pre>
                 </div>
+                <div class="code-example">
+                    <div class="code-header">
+                        <div class="code-title">С ссылкой на согласие на обработку ПД</div>
+                        <button class="copy-btn" onclick="copyCode(this)">Копировать</button>
+                    </div>
+                    <pre><code>&lt;script src="cookies.min.js?agree-url=https://example.com/soglasie" async defer&gt;&lt;/script&gt;</code></pre>
+                </div>
 
                 <div class="code-example">
                     <div class="code-header">
@@ -210,6 +217,12 @@
                                 <td>https://example.com/privacy</td>
                             </tr>
                             <tr>
+                                <td><span class="param-name">agree-url</span></td>
+                                <td>Ссылка на согласие на обработку ПД</td>
+                                <td>/soglasie</td>
+                                <td>https://example.com/soglasie</td>
+                            </tr>
+                            <tr>
                                 <td><span class="param-name">icon</span></td>
                                 <td>Отображение иконки куки</td>
                                 <td>false</td>
@@ -235,6 +248,16 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+
+                <div class="code-example">
+                    <div class="code-header flex-col align-start">
+                        <div class="code-title">Пример пользовательского текста о файлах cookie</div>
+                        <div>
+                            <p class="alert-warning">Важно: данная часть должна быть объявлена раньше инициализации скрипта</p>
+                        </div>
+                    </div>
+                    <pre><code>&lt;script&gt;<br>    const textCookies = "Здесь может располагаться ваш текст о файлах cookie. {politika target='_blank'}Так прописывается политика к тексте{/politika}. {soglasie target='_blank'}А так согласие{/soglasie}"<br>&lt;/script&gt;</code></pre>
                 </div>
 
                 <div class="code-example">

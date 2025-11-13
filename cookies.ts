@@ -3,13 +3,11 @@ import {getCookie, setCookie} from './utils/cookies';
 import {applyStyles, generateStyle, parseClassList} from './utils/styles';
 import {isEmpty} from "./utils/array";
 import {getScriptParams} from "./utils/params";
-
-
-
+import replaceCustomTags from "./types/TextLink";
 
 ((): null | undefined => {
     function generateModalCookies(
-        urlPolicy: string,
+        text_cookies: string,
         isIcon: boolean = false,
         cookieName: string,
         daysCookies: number = 365
@@ -19,7 +17,7 @@ import {getScriptParams} from "./utils/params";
         const main: HTMLElement = document.createElement('aside');
         main.id = 'cookies';
         main.setAttribute('role', 'alert');
-        main.setAttribute('aria-label', 'Уведомление об использовании cookie');
+        main.setAttribute('aria-label', 'Уведомление об использовании файлов cookie');
 
         const wrapper: HTMLDivElement = document.createElement('div');
         wrapper.id = 'cookies-wrapper';
@@ -35,14 +33,14 @@ import {getScriptParams} from "./utils/params";
 
         const title: HTMLHeadingElement = document.createElement('h2');
         title.id = 'cookies-title';
-        title.textContent = 'Наш сайт использует cookies';
+        title.textContent = 'Наш сайт использует файлы cookie';
 
         const body: HTMLDivElement = document.createElement('div');
         body.classList.add('cookies-line');
 
         const text: HTMLParagraphElement = document.createElement('p');
         text.id = 'cookies-text';
-        text.innerHTML = `Наш сайт использует файлы cookies для улучшения работы сайта, данные обрабатываются с использованием интернет-сервиса Яндекс.Метрика. Продолжая использовать сайт, вы соглашаетесь с использованием cookie в соответствии с нашей <a href="${urlPolicy}" target="_blank" rel="noopener noreferrer">политикой конфиденциальности</a>.`;
+        text.innerHTML = text_cookies;
 
         const btn: HTMLButtonElement = document.createElement('button');
         btn.id = 'cookies-btn';
@@ -73,7 +71,7 @@ import {getScriptParams} from "./utils/params";
         document.body.appendChild(main);
     }
 
-    const COOKIES_KEY: string = 'cookieAccepted';
+    const COOKIES_KEY: string = 'c_ok';
 
     if (getCookie(COOKIES_KEY) == 'true') return null;
 
@@ -83,6 +81,12 @@ import {getScriptParams} from "./utils/params";
 
     if (!policyUrl?.trim()) {
         policyUrl = '/politika';
+    }
+
+    let soglasieUrl: string | null = urlParams.get('agree-url') ?? null;
+
+    if (!soglasieUrl?.trim()) {
+        soglasieUrl = '/soglasie';
     }
 
     const isIcon: boolean = ['true', '1', 'yes'].includes(
@@ -97,7 +101,15 @@ import {getScriptParams} from "./utils/params";
         generateStyle(css);
     });
 
-    generateModalCookies(policyUrl, isIcon, COOKIES_KEY, days);
+    let text = ''
+
+    if (typeof textCookies !== 'undefined') {
+        text = replaceCustomTags(textCookies, {policyUrl: policyUrl, soglasieUrl: soglasieUrl})
+    } else {
+        text = replaceCustomTags(`Мы используем файлы cookie. Используя сайт, вы автоматически соглашаетесь с Политикой использования cookie-файлов и выражаете свое {soglasie target="_blank"}согласие{/soglasie} на обработку ваших персональных данных с использованием сервисов аналитики Яндекс.Метрика и с {politika target="_blank"}политикой конфиденциальности{/politika}. В случае несогласия с обработкой ваших персональных данных вы можете отключить сохранение cookies в настройках вашего браузера.`, {policyUrl: policyUrl, soglasieUrl: soglasieUrl})
+    }
+
+    generateModalCookies(text, isIcon, COOKIES_KEY, days);
 
     return null;
 })();

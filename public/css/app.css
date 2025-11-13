@@ -466,3 +466,11 @@ footer {
         }
     }
 }
+
+.flex-col {
+    flex-direction: column;
+}
+
+.align-start {
+    align-items: flex-start;
+}
