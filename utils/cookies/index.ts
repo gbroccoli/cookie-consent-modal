@@ -7,7 +7,7 @@ export function setCookie(name: string, value: string, days: number): void {
         document.cookie = `${pair}; path=/; expires=${date.toUTCString()};`;
     } else {
         // сессионная кука — без expires
-        document.cookie = `${pair} path=/;`;
+        document.cookie = `${pair}; path=/;`;
     }
 }
 
