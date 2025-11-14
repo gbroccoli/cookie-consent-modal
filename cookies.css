@@ -168,10 +168,12 @@
             }
         }
 
-        @media (hover: hover) {
-            &:hover {
-                background: var(--cookies-btn-bg-hover);
-                color: var(--cookies-btn-text-color-hover);
+        &:not([class]) {
+            @media (hover: hover) {
+                &:hover {
+                    background: var(--cookies-btn-bg-hover);
+                    color: var(--cookies-btn-text-color-hover);
+                }
             }
         }
     }
