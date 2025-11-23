@@ -79,6 +79,6 @@ export default [
     },
 
     {
-        ignores: ['node_modules', 'dist', 'build', 'public/js', '*.min.js'],
+        ignores: ['node_modules', 'dist', 'build', 'docs/js', '*.min.js'],
     },
 ];

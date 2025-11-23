@@ -42,18 +42,18 @@ jobs:
         run: |
           VERSION=$(jq -r .version package.json)
           LAST_EDIT=$(stat -c "%Y" cookies.ts | xargs -I{} date -d "@{}" "+%d %B %Y" | sed 's/January/января/; s/February/февраля/; s/March/марта/; s/April/апреля/; s/May/мая/; s/June/июня/; s/July/июля/; s/August/августа/; s/September/сентября/; s/October/октября/; s/November/ноября/; s/December/декабря/')
-          sed -i "s/{{VERSION}}/${VERSION}/g" public/index.html
-          sed -i "s/{{LAST_EDIT}}/${LAST_EDIT}/g" public/index.html
+          sed -i "s/{{VERSION}}/${VERSION}/g" docs/index.html
+          sed -i "s/{{LAST_EDIT}}/${LAST_EDIT}/g" docs/index.html
 
       - name: Build project
         run: bun run build
 
       - name: Copy built file and update file size
         run: |
-          cp dist/cookies.min.js public/cookies.min.js
-          FILE_SIZE=$(stat -c%s public/cookies.min.js)
+          cp dist/cookies.min.js docs/cookies.min.js
+          FILE_SIZE=$(stat -c%s docs/cookies.min.js)
           FILE_SIZE_KB=$(echo "scale=1; $FILE_SIZE / 1024" | bc)
-          sed -i "s/{{FILE_SIZE}}/${FILE_SIZE_KB}/g" public/index.html
+          sed -i "s/{{FILE_SIZE}}/${FILE_SIZE_KB}/g" docs/index.html
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -61,7 +61,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './public'
+          path: './docs'
 
       - name: Deploy to GitHub Pages
         id: deployment
