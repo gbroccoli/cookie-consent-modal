@@ -42,8 +42,12 @@ jobs:
         run: |
           VERSION=$(jq -r .version package.json)
           LAST_EDIT=$(stat -c "%Y" cookies.ts | xargs -I{} date -d "@{}" "+%d %B %Y" | sed 's/January/января/; s/February/февраля/; s/March/марта/; s/April/апреля/; s/May/мая/; s/June/июня/; s/July/июля/; s/August/августа/; s/September/сентября/; s/October/октября/; s/November/ноября/; s/December/декабря/')
-          sed -i "s/{{VERSION}}/${VERSION}/g" docs/index.html
-          sed -i "s/{{LAST_EDIT}}/${LAST_EDIT}/g" docs/index.html
+          echo "VERSION: $VERSION"
+          echo "LAST_EDIT: $LAST_EDIT"
+          sed -i "s|{{VERSION}}|${VERSION}|g" docs/index.html
+          sed -i "s|{{LAST_EDIT}}|${LAST_EDIT}|g" docs/index.html
+          echo "Placeholders replaced"
+          grep -E "VERSION|LAST_EDIT" docs/index.html | head -3
 
       - name: Build project
         run: bun run build
@@ -53,7 +57,11 @@ jobs:
           cp dist/cookies.min.js docs/cookies.min.js
           FILE_SIZE=$(stat -c%s docs/cookies.min.js)
           FILE_SIZE_KB=$(echo "scale=1; $FILE_SIZE / 1024" | bc)
-          sed -i "s/{{FILE_SIZE}}/${FILE_SIZE_KB}/g" docs/index.html
+          echo "FILE_SIZE: $FILE_SIZE bytes"
+          echo "FILE_SIZE_KB: $FILE_SIZE_KB KB"
+          sed -i "s|{{FILE_SIZE}}|${FILE_SIZE_KB}|g" docs/index.html
+          echo "File size placeholder replaced"
+          grep "FILE_SIZE" docs/index.html || echo "No FILE_SIZE placeholder found"
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
