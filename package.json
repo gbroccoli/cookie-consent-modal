@@ -2,10 +2,8 @@
     "version": "2.0.2",
     "type": "module",
     "scripts": {
-        "build": "vite build && bun run copy-dist && bun run update-docs-meta",
-        "copy-dist": "node utils/copy-dist.js",
-        "lint": "bunx eslint . --ext .ts,.tsx,.js",
-        "update-docs-meta": "node utils/update-docs-meta.js"
+        "build": "vite build",
+        "lint": "bunx eslint . --ext .ts,.tsx,.js"
     },
     "devDependencies": {
         "@eslint/js": "^9.39.1",

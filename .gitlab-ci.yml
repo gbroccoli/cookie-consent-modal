@@ -13,23 +13,23 @@ pages:
         - bun install
         - apk add --no-cache jq coreutils tzdata bc
         - cp /usr/share/zoneinfo/Asia/Vladivostok /etc/localtime
-        - echo "=== Before replacement ===" && grep -E "VERSION|LAST_EDIT|FILE_SIZE" docs/index.html
+        - echo "=== Before replacement ===" && grep -E "VERSION|LAST_EDIT|FILE_SIZE" public/index.html
         - VERSION=$(jq -r .version package.json)
         - LAST_EDIT=$(stat -c "%Y" cookies.ts | xargs -I{} date -d "@{}" "+%d %B %Y" | sed 's/January/января/; s/February/февраля/; s/March/марта/; s/April/апреля/; s/May/мая/; s/June/июня/; s/July/июля/; s/August/августа/; s/September/сентября/; s/October/октября/; s/November/ноября/; s/December/декабря/')
         - echo "=== Variables ===" && echo "VERSION:$VERSION" && echo "LAST_EDIT:$LAST_EDIT"
-        - sed -i "s|{{VERSION}}|${VERSION}|g" docs/index.html
-        - sed -i "s|{{LAST_EDIT}}|${LAST_EDIT}|g" docs/index.html
-        - echo "=== After VERSION and LAST_EDIT replacement ===" && grep -E "Modal v|обновление:" docs/index.html
+        - sed -i "s|{{VERSION}}|${VERSION}|g" public/index.html
+        - sed -i "s|{{LAST_EDIT}}|${LAST_EDIT}|g" public/index.html
+        - echo "=== After VERSION and LAST_EDIT replacement ===" && grep -E "Modal v|обновление:" public/index.html
         - bun run build
-        - cp dist/cookies.min.js docs/cookies.min.js
-        - FILE_SIZE=$(stat -c%s docs/cookies.min.js)
+        - cp dist/cookies.min.js public/cookies.min.js
+        - FILE_SIZE=$(stat -c%s public/cookies.min.js)
         - FILE_SIZE_KB=$(echo "scale=1; $FILE_SIZE / 1024" | bc)
         - echo "=== File size info ===" && echo "FILE_SIZE:$FILE_SIZE bytes" && echo "FILE_SIZE_KB:${FILE_SIZE_KB} KB"
-        - sed -i "s|{{FILE_SIZE}}|${FILE_SIZE_KB}|g" docs/index.html
-        - echo "=== Final result ===" && grep -E "Modal v|обновление:|Размер:" docs/index.html
-        - if grep -q "{{VERSION}}" docs/index.html || grep -q "{{LAST_EDIT}}" docs/index.html || grep -q "{{FILE_SIZE}}" docs/index.html; then echo "ERROR - Placeholders not replaced!" && exit 1; else echo "SUCCESS - All placeholders replaced"; fi
+        - sed -i "s|{{FILE_SIZE}}|${FILE_SIZE_KB}|g" public/index.html
+        - echo "=== Final result ===" && grep -E "Modal v|обновление:|Размер:" public/index.html
+        - if grep -q "{{VERSION}}" public/index.html || grep -q "{{LAST_EDIT}}" public/index.html || grep -q "{{FILE_SIZE}}" public/index.html; then echo "ERROR - Placeholders not replaced!" && exit 1; else echo "SUCCESS - All placeholders replaced"; fi
     artifacts:
         paths:
-            - docs
+            - public
     only:
         - main
