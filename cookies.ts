@@ -1,9 +1,9 @@
 import css from './cookies.css?inline';
+import replaceCustomTags from './types/TextLink';
+import {isEmpty} from './utils/array';
 import {getCookie, setCookie} from './utils/cookies';
+import {getScriptParams} from './utils/params';
 import {applyStyles, generateStyle, parseClassList} from './utils/styles';
-import {isEmpty} from "./utils/array";
-import {getScriptParams} from "./utils/params";
-import replaceCustomTags from "./types/TextLink";
 
 ((): null | undefined => {
     function generateModalCookies(
@@ -52,7 +52,7 @@ import replaceCustomTags from "./types/TextLink";
             main.remove();
         });
 
-        const classes = parseClassList(urlParams.get('btn-class'))
+        const classes = parseClassList(urlParams.get('btn-class'));
         if (!isEmpty(classes)) {
             btn.classList.add(...classes);
         }
@@ -75,7 +75,7 @@ import replaceCustomTags from "./types/TextLink";
 
     if (getCookie(COOKIES_KEY) == 'true') return null;
 
-    const urlParams = getScriptParams()
+    const urlParams = getScriptParams();
 
     let policyUrl: string | null = urlParams.get('policy-url') ?? null;
 
