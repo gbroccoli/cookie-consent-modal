@@ -2,3 +2,5 @@
 /.idea
 /dist
 /bun.lock
+
+/docs/cookies.min.js
