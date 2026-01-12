@@ -3,6 +3,19 @@ image: oven/bun:alpine
 stages:
     - deploy
 
+mirror-to-github:
+    stage: deploy
+    only:
+        - main
+        - tags
+    script:
+        - git remote add github https://${GITHUB_TOKEN}@github.com/${GITHUB_USER}/${GITHUB_REPO}.git || true
+        - git fetch --unshallow || true
+        - git push github HEAD:main --forse --tags
+    variables:
+        GIT_STRATEGY: clone
+        GIT_DEPTH: 0
+
 cache:
     paths:
         - node_modules/
