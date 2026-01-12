@@ -11,7 +11,7 @@ mirror-to-github:
         - tags
     script:
         - git remote add github https://${GITHUB_TOKEN}@github.com/${GITHUB_USER}/${GITHUB_REPO}.git || true
-        - git push github HEAD:main --forсe --tags
+        - git push github HEAD:main --force --tags
     variables:
         GIT_STRATEGY: clone
         GIT_DEPTH: 0
