@@ -1,0 +1,63 @@
+name: Build and Release
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'package.json'
+
+jobs:
+    release:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+            
+            - uses: oven-sh/setup-bun@v1
+
+            - name: Get version from package.json
+              id: package
+              run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+            
+            - name: Check if tag exists
+              id: check_tag
+              run: |
+                if git rev-parse "v${{ steps.package.outputs.version }}" >/dev/null 2>&1; then
+                    echo "exists=true" >> $GITHUB_OUTPUT
+                else
+                    echo "exists=false" >> $GITHUB_OUTPUT
+                fi
+            
+            - name: Build
+              if: steps.check_tag.outputs.exists == 'false'
+              run: |
+                bun i
+                bun run build
+                cp dist/cookies.min.js cookies.min.js
+            
+            - name: Create Tag
+              if: steps.check_tag.outputs.exists == 'false'
+              run: |
+                git config user.name "github-actions[bot]"
+                git config user.email "github-actions[bot]@users.noreply.github.com"
+                git tag "v${{ steps.package.outputs.version }}"
+                git push origin "v${{ steps.package.outputs.version }}"
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            
+            - name: Create Release
+              if: steps.check_tag.outputs.exists == 'false'
+              uses: softprops/action-gh-release@v1
+              with:
+                  tag_name: v${{ steps.package.outputs.version }}
+                  name: Release v${{ steps.package.outputs.version }}
+                  files: cookies.min.js
+                  generate_release_notes: true
+                  body: |
+                    📦 Version ${{ steps.package.outputs.version }}
+
+                    📚 [Документация](https://cookies.gbroccoli.ru)
+                    
+                    
