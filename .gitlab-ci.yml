@@ -4,6 +4,7 @@ stages:
     - deploy
 
 mirror-to-github:
+    image: alpine/git:latest
     stage: deploy
     only:
         - main
