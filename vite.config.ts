@@ -16,7 +16,7 @@ export default defineConfig({
             mangle: false,
             format: {
                 beautify: false,
-                preamble: `/*! CookiesModal v${version} Official doc: https://github.com/gbroccoli/cookie-consent-modal */`,
+                preamble: `/*! CookiesModal v${version} Official doc: https://cookies.gbroccoli.ru */`,
             },
             compress: {
                 drop_console: false,
