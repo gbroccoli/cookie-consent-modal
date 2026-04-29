@@ -177,10 +177,18 @@
 
                 <div class="code-example">
                     <div class="code-header">
+                        <div class="code-title">Установить свое название куки</div>
+                        <button class="copy-btn" onclick="copyCode(this)">Копировать</button>
+                    </div>
+                    <pre><code>&lt;script src="cookies.min.js?cookie_name=cookie-name" async defer&gt;&lt;/script&gt;</code></pre>
+                </div>
+
+                <div class="code-example">
+                    <div class="code-header">
                         <div class="code-title">Полный пример с всеми параметрами</div>
                         <button class="copy-btn" onclick="copyCode(this)">Копировать</button>
                     </div>
-                    <pre><code>&lt;script src="cookies.min.js?policy-url=https://example.com/privacy&amp;das=5&icon=true&amp;style-url=https://example.com/custom.css&btn-class=test+test-one" async defer&gt;&lt;/script&gt;</code></pre>
+                    <pre><code>&lt;script src="cookies.min.js?policy-url=https://example.com/privacy&amp;das=5&icon=true&amp;style-url=https://example.com/custom.css&btn-class=test+test-one&cookie-name=new_name" async defer&gt;&lt;/script&gt;</code></pre>
                 </div>
 
                 <div class="alert alert-success">
@@ -239,6 +247,12 @@
                                 <td>CSS-класс, который будет применён к кнопке согласия</td>
                                 <td>Не задано</td>
                                 <td>test | test+test-small | test%20test</td>
+                            </tr>
+                            <tr>
+                                <td><span class="param-name">cookie-name</span></td>
+                                <td>Изменение стандартного имени куки</td>
+                                <td>c_ok</td>
+                                <td>new_name</td>
                             </tr>
                             <tr>
                                 <td><span class="param-name">days</span></td>

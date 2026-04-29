@@ -74,7 +74,7 @@ import {applyStyles, generateStyle, parseClassList} from './utils/styles';
 
     const urlParams = getScriptParams();
 
-    const cookieNewName: string | null = urlParams.get('cookie_name');
+    const cookieNewName: string | null = urlParams.get('cookie-name');
     if (cookieNewName) {
         CookieManager.setName(cookieNewName);
     }
