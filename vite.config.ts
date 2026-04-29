@@ -13,7 +13,7 @@ export default defineConfig({
         minify: 'terser',
         sourcemap: false,
         terserOptions: {
-            mangle: false,
+            mangle: true,
             format: {
                 beautify: false,
                 preamble: `/*! CookiesModal v${version} Official doc: https://cookies.gbroccoli.ru */`,
@@ -22,7 +22,7 @@ export default defineConfig({
                 drop_console: false,
                 drop_debugger: true,
             },
-        },
+        } as any,
         rollupOptions: {
             input: path.resolve(__dirname, 'cookies.ts'),
             output: {

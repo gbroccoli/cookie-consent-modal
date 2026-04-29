@@ -7,7 +7,7 @@ function replaceCustomTags(text: string, urls: TagUrls): string {
 
     return text.replace(pattern, (match, tagName, attributes, content) => {
         // Регулярка для одинарных и двойных кавычек
-        const attrPattern = /(\w+)=(['"])([^\2]*?)\2/g;
+        const attrPattern = /(\w+)=(['"])(.*?)\2/g;
         const attrs: Record<string, string> = {};
         let attrMatch;
 

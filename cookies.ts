@@ -1,4 +1,5 @@
 import css from './cookies.css?inline';
+import {CookieManager} from "./modules/cookieManager";
 import replaceCustomTags from './types/TextLink';
 import {isEmpty} from './utils/array';
 import {getCookie, setCookie} from './utils/cookies';
@@ -71,11 +72,14 @@ import {applyStyles, generateStyle, parseClassList} from './utils/styles';
         document.body.appendChild(main);
     }
 
-    const COOKIES_KEY: string = 'c_ok';
-
-    if (getCookie(COOKIES_KEY) == 'true') return null;
-
     const urlParams = getScriptParams();
+
+    const cookieNewName: string | null = urlParams.get('cookie_name');
+    if (cookieNewName) {
+        CookieManager.setName(cookieNewName);
+    }
+
+    if (getCookie(CookieManager.getName()) == 'true') return null;
 
     let policyUrl: string | null = urlParams.get('policy-url') ?? null;
 
@@ -109,7 +113,7 @@ import {applyStyles, generateStyle, parseClassList} from './utils/styles';
         text = replaceCustomTags(`Мы используем файлы cookie. Используя сайт, вы автоматически соглашаетесь с Политикой использования cookie-файлов и выражаете свое {soglasie target="_blank"}согласие{/soglasie} на обработку ваших персональных данных с использованием сервисов аналитики Яндекс.Метрика и с {politika target="_blank"}политикой конфиденциальности{/politika}. В случае несогласия с обработкой ваших персональных данных вы можете отключить сохранение cookies в настройках вашего браузера.`, {policyUrl: policyUrl, soglasieUrl: soglasieUrl})
     }
 
-    generateModalCookies(text, isIcon, COOKIES_KEY, days);
+    generateModalCookies(text, isIcon, CookieManager.getName(), days);
 
     return null;
 })();
