@@ -1,10 +1,11 @@
 import css from './cookies.css?inline';
-import {CookieManager} from "./modules/cookieManager";
+import { CookieManager } from './modules/cookieManager';
 import replaceCustomTags from './types/TextLink';
-import {isEmpty} from './utils/array';
-import {getCookie, setCookie} from './utils/cookies';
-import {getScriptParams} from './utils/params';
-import {applyStyles, generateStyle, parseClassList} from './utils/styles';
+import { isEmpty } from './utils/array';
+import { getCookie, setCookie } from './utils/cookies';
+import { getScriptParams } from './utils/params';
+import { applyStyles, generateStyle, parseClassList } from './utils/styles';
+import { YandexMetrika } from './modules/providers/YandexMetrika';
 
 ((): null | undefined => {
     function generateModalCookies(
@@ -50,6 +51,7 @@ import {applyStyles, generateStyle, parseClassList} from './utils/styles';
 
         btn.addEventListener('click', () => {
             setCookie(cookieName, 'true', daysCookies);
+            yandexMetrika.enable();
             main.remove();
         });
 
@@ -79,7 +81,15 @@ import {applyStyles, generateStyle, parseClassList} from './utils/styles';
         CookieManager.setName(cookieNewName);
     }
 
-    if (getCookie(CookieManager.getName()) == 'true') return null;
+    const hasConsent = getCookie(CookieManager.getName()) === 'true';
+
+    const yandexMetrika = new YandexMetrika(hasConsent);
+
+    yandexMetrika.init();
+
+    if (hasConsent) {
+        return null;
+    }
 
     let policyUrl: string | null = urlParams.get('policy-url') ?? null;
 
@@ -95,22 +105,30 @@ import {applyStyles, generateStyle, parseClassList} from './utils/styles';
 
     const isIcon: boolean = ['true', '1', 'yes'].includes(
         urlParams.get('icon')?.toLowerCase() || ''
-    )
+    );
 
-    let days: string | number | null | undefined = urlParams.get('days')
+    let days: string | number | null | undefined = urlParams.get('days');
 
-    days = !isNaN(Number(days)) && Number.isInteger(Number(days)) ? Number(days) >= 0 ? Number(days) : undefined : undefined
+    days =
+        !isNaN(Number(days)) && Number.isInteger(Number(days))
+            ? Number(days) >= 0
+                ? Number(days)
+                : undefined
+            : undefined;
 
     applyStyles(urlParams.get('style-url')!, () => {
         generateStyle(css);
     });
 
-    let text = ''
+    let text = '';
 
     if (typeof textCookies !== 'undefined') {
-        text = replaceCustomTags(textCookies, {policyUrl: policyUrl, soglasieUrl: soglasieUrl})
+        text = replaceCustomTags(textCookies, { policyUrl: policyUrl, soglasieUrl: soglasieUrl });
     } else {
-        text = replaceCustomTags(`Мы используем файлы cookie. Используя сайт, вы автоматически соглашаетесь с Политикой использования cookie-файлов и выражаете свое {soglasie target="_blank"}согласие{/soglasie} на обработку ваших персональных данных с использованием сервисов аналитики Яндекс.Метрика и с {politika target="_blank"}политикой конфиденциальности{/politika}. В случае несогласия с обработкой ваших персональных данных вы можете отключить сохранение cookies в настройках вашего браузера.`, {policyUrl: policyUrl, soglasieUrl: soglasieUrl})
+        text = replaceCustomTags(
+            `Мы используем файлы cookie. Используя сайт, вы автоматически соглашаетесь с Политикой использования cookie-файлов и выражаете свое {soglasie target="_blank"}согласие{/soglasie} на обработку ваших персональных данных с использованием сервисов аналитики Яндекс.Метрика и с {politika target="_blank"}политикой конфиденциальности{/politika}. В случае несогласия с обработкой ваших персональных данных вы можете отключить сохранение cookies в настройках вашего браузера.`,
+            { policyUrl: policyUrl, soglasieUrl: soglasieUrl }
+        );
     }
 
     generateModalCookies(text, isIcon, CookieManager.getName(), days);
