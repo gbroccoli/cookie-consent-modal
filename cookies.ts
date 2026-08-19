@@ -1,13 +1,60 @@
 import css from './cookies.css?inline';
 import { CookieManager } from './modules/cookieManager';
+import { TemplateAnalytics } from './modules/providers/TemplateAnalytics';
+import { YandexMetrika } from './modules/providers/YandexMetrika';
 import replaceCustomTags from './types/TextLink';
 import { isEmpty } from './utils/array';
 import { getCookie, setCookie } from './utils/cookies';
 import { getScriptParams } from './utils/params';
 import { applyStyles, generateStyle, parseClassList } from './utils/styles';
-import { YandexMetrika } from './modules/providers/YandexMetrika';
+
+interface AnalyticsProvider {
+    init(): void;
+    enable(): void;
+    disable(): void;
+}
 
 ((): null | undefined => {
+    const urlParams = getScriptParams();
+
+    const cookieNewName: string | null = urlParams.get('cookie-name');
+    if (cookieNewName) {
+        CookieManager.setName(cookieNewName);
+    }
+
+    let days: string | number | null | undefined = urlParams.get('days');
+
+    days =
+        !isNaN(Number(days)) && Number.isInteger(Number(days))
+            ? Number(days) >= 0
+                ? Number(days)
+                : undefined
+            : undefined;
+
+    const cookieDays = typeof days === 'number' ? days : 365;
+    const currentCookieName = CookieManager.getName();
+    const legacyCookieName = 'cookieAccepted';
+
+    let hasConsent = getCookie(currentCookieName) === 'true';
+
+    if (!hasConsent && currentCookieName !== legacyCookieName) {
+        const hasLegacyConsent = getCookie(legacyCookieName) === 'true';
+
+        if (hasLegacyConsent) {
+            setCookie(currentCookieName, 'true', cookieDays);
+            hasConsent = true;
+        }
+    }
+
+    const metrikaMode = urlParams.get('metrika-mode')?.trim().toLowerCase();
+
+    const analyticsProvider: AnalyticsProvider =
+        metrikaMode === 'template'
+            ? new TemplateAnalytics(hasConsent)
+            : new YandexMetrika(hasConsent);
+
+    analyticsProvider.init();
+
     function generateModalCookies(
         text_cookies: string,
         isIcon: boolean = false,
@@ -51,7 +98,7 @@ import { YandexMetrika } from './modules/providers/YandexMetrika';
 
         btn.addEventListener('click', () => {
             setCookie(cookieName, 'true', daysCookies);
-            yandexMetrika.enable();
+            analyticsProvider.enable();
             main.remove();
         });
 
@@ -74,19 +121,6 @@ import { YandexMetrika } from './modules/providers/YandexMetrika';
         document.body.appendChild(main);
     }
 
-    const urlParams = getScriptParams();
-
-    const cookieNewName: string | null = urlParams.get('cookie-name');
-    if (cookieNewName) {
-        CookieManager.setName(cookieNewName);
-    }
-
-    const hasConsent = getCookie(CookieManager.getName()) === 'true';
-
-    const yandexMetrika = new YandexMetrika(hasConsent);
-
-    yandexMetrika.init();
-
     if (hasConsent) {
         return null;
     }
@@ -107,15 +141,6 @@ import { YandexMetrika } from './modules/providers/YandexMetrika';
         urlParams.get('icon')?.toLowerCase() || ''
     );
 
-    let days: string | number | null | undefined = urlParams.get('days');
-
-    days =
-        !isNaN(Number(days)) && Number.isInteger(Number(days))
-            ? Number(days) >= 0
-                ? Number(days)
-                : undefined
-            : undefined;
-
     applyStyles(urlParams.get('style-url')!, () => {
         generateStyle(css);
     });
@@ -131,7 +156,7 @@ import { YandexMetrika } from './modules/providers/YandexMetrika';
         );
     }
 
-    generateModalCookies(text, isIcon, CookieManager.getName(), days);
+    generateModalCookies(text, isIcon, currentCookieName, cookieDays);
 
     return null;
 })();
