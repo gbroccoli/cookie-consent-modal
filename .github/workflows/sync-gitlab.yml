@@ -1,0 +1,38 @@
+name: Sync main to GitLab
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sync-gitlab-main
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure GitLab remote
+        env:
+          GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
+        run: |
+          if [ -z "$GITLAB_TOKEN" ]; then
+            echo "GITLAB_TOKEN secret is not configured"
+            exit 1
+          fi
+
+          git remote add gitlab "https://oauth2:${GITLAB_TOKEN}@gitlab.com/gbroccoli/cookie-consent-modal.git"
+
+      - name: Push main to GitLab
+        run: git push gitlab HEAD:main
