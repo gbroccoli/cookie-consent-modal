@@ -1,17 +1,21 @@
 export class YandexMetrika {
     private readonly counters = new Set<number>();
 
+    private readonly previousStates = new Map<number, boolean | undefined>();
+
     private enabled: boolean;
 
-    private originalInsertBefore: typeof Node.prototype.insertBefore | null = null;
+    private observer: MutationObserver | null = null;
 
-    constructor(enabled: boolean) {
+    constructor(enabled: boolean, counterIds: number[] = []) {
         this.enabled = enabled;
+
+        counterIds.forEach((id) => this.registerCounter(id));
     }
 
     public init(): void {
         this.detectExistingCounters();
-        this.interceptScripts();
+        this.observeScripts();
         this.applyState();
     }
 
@@ -26,52 +30,104 @@ export class YandexMetrika {
     }
 
     private registerCounter(id: number): void {
-        this.counters.add(id);
-
-        window[`disableYaCounter${id}`] = !this.enabled;
-    }
-
-    private applyState(): void {
-        this.counters.forEach((id) => {
-            window[`disableYaCounter${id}`] = !this.enabled;
-        });
-    }
-
-    private detectExistingCounters(): void {
-        document
-            .querySelectorAll<HTMLScriptElement>('script[src*="mc.yandex.ru/metrika/tag.js"]')
-            .forEach((script) => {
-                const id = this.getCounterId(script.src);
-
-                if (id !== null) {
-                    this.registerCounter(id);
-                }
-            });
-    }
-
-    private interceptScripts(): void {
-        if (this.originalInsertBefore) {
+        if (!Number.isInteger(id) || id <= 0 || this.counters.has(id)) {
             return;
         }
 
-        this.originalInsertBefore = Node.prototype.insertBefore;
+        const key = `disableYaCounter${id}`;
 
-        const provider = this;
+        this.counters.add(id);
+        this.previousStates.set(id, window[key]);
+        this.applyCounterState(id);
+    }
 
-        Node.prototype.insertBefore = function <T extends Node>(
-            newNode: T,
-            referenceNode: Node | null
-        ): T {
-            if (newNode instanceof HTMLScriptElement) {
-                const id = provider.getCounterId(newNode.src);
+    private applyState(): void {
+        this.counters.forEach((id) => this.applyCounterState(id));
+    }
 
-                if (id !== null) {
-                    provider.registerCounter(id);
-                }
+    private applyCounterState(id: number): void {
+        const key = `disableYaCounter${id}`;
+
+        if (!this.enabled) {
+            window[key] = true;
+            return;
+        }
+
+        const previousState = this.previousStates.get(id);
+
+        if (previousState === undefined) {
+            delete window[key];
+            return;
+        }
+
+        window[key] = previousState;
+    }
+
+    private detectExistingCounters(): void {
+        Object.keys(window).forEach((key) => {
+            const match = key.match(/^disableYaCounter(\d+)$/);
+
+            if (match) {
+                this.registerCounter(Number(match[1]));
             }
+        });
 
-            return provider.originalInsertBefore!.call(this, newNode, referenceNode) as T;
-        };
+        document.querySelectorAll<HTMLScriptElement>('script').forEach((script) => {
+            this.detectCountersInScript(script);
+        });
+    }
+
+    private observeScripts(): void {
+        if (this.observer) {
+            return;
+        }
+
+        this.observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                mutation.addedNodes.forEach((node) => {
+                    if (node instanceof HTMLScriptElement) {
+                        this.detectCountersInScript(node);
+                        return;
+                    }
+
+                    if (node instanceof HTMLElement) {
+                        node.querySelectorAll<HTMLScriptElement>('script').forEach((script) => {
+                            this.detectCountersInScript(script);
+                        });
+                    }
+                });
+            });
+        });
+
+        this.observer.observe(document.documentElement, {
+            childList: true,
+            subtree: true,
+        });
+    }
+
+    private detectCountersInScript(script: HTMLScriptElement): void {
+        const idFromSrc = this.getCounterId(script.src);
+
+        if (idFromSrc !== null) {
+            this.registerCounter(idFromSrc);
+        }
+
+        this.getCounterIdsFromCode(script.textContent || '').forEach((id) => {
+            this.registerCounter(id);
+        });
+    }
+
+    private getCounterIdsFromCode(code: string): number[] {
+        const ids = new Set<number>();
+        const regexp = /\bym\s*\(\s*(\d+)\s*,\s*['"]init['"]/g;
+
+        let match: RegExpExecArray | null;
+
+        while ((match = regexp.exec(code)) !== null) {
+            ids.add(Number(match[1]));
+        }
+
+        return [...ids];
     }
 
     private getCounterId(src: string): number | null {
