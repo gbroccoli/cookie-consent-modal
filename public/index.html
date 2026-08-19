@@ -6,14 +6,12 @@
         <title>Cookies Modal - Скрипт для управления куки</title>
 
         <link rel="icon" href="favicon.ico" type="image/x-icon" />
-
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
             href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap"
             rel="stylesheet"
         />
-
         <link rel="stylesheet" href="css/app.css" />
     </head>
     <body>
@@ -22,8 +20,8 @@
                 <div class="hero">
                     <h1>🍪 Cookies Modal</h1>
                     <p>
-                        Простой скрипт для отображения модального окна об использовании куки на
-                        вашем сайте
+                        Простой скрипт для уведомления об использовании cookie и управления запуском
+                        аналитики после согласия пользователя.
                     </p>
                     <a href="#download" class="download-btn">Скачать скрипт</a>
                 </div>
@@ -36,6 +34,7 @@
                     <li><a href="#features">Возможности</a></li>
                     <li><a href="#preview">Внешний вид</a></li>
                     <li><a href="#examples">Примеры</a></li>
+                    <li><a href="#metrika">Яндекс.Метрика</a></li>
                     <li><a href="#parameters">Параметры</a></li>
                     <li><a href="#download">Скачать</a></li>
                 </ul>
@@ -48,51 +47,39 @@
                 <div class="features">
                     <div class="feature-card">
                         <div class="feature-icon">🍪</div>
-                        <h3>Модальное окно о куки</h3>
-                        <p>
-                            Красивое и функциональное модальное окно для уведомления пользователей
-                            об использовании куки на сайте.
-                        </p>
+                        <h3>Уведомление о cookie</h3>
+                        <p>Готовое адаптивное окно с кнопкой подтверждения согласия.</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">🔗</div>
                         <h3>GET-параметры</h3>
+                        <p>Настройки передаются прямо в URL подключаемого скрипта.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3>Яндекс.Метрика</h3>
                         <p>
-                            Все настройки передаются через GET-параметры в URL скрипта. Никаких
-                            дополнительных конфигураций.
+                            Поддерживается обычный режим через disableYaCounter и строгий режим через
+                            HTML template.
                         </p>
                     </div>
                     <div class="feature-card">
-                        <div class="feature-icon">📱</div>
-                        <h3>Адаптивный дизайн</h3>
+                        <div class="feature-icon">🔄</div>
+                        <h3>Обратная совместимость</h3>
                         <p>
-                            Отлично работает на всех устройствах - от мобильных телефонов до больших
-                            экранов.
-                        </p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">⚡</div>
-                        <h3>Простая интеграция</h3>
-                        <p>
-                            Подключается одной строкой кода с атрибутом defer/async. Никаких сложных
-                            настроек и зависимостей.
+                            Старое согласие cookieAccepted=true распознаётся и переносится в текущее
+                            состояние согласия.
                         </p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">🎨</div>
                         <h3>Кастомные стили</h3>
-                        <p>
-                            Подключите свой файл стилей через параметр style-url для полной
-                            кастомизации внешнего вида.
-                        </p>
+                        <p>Можно подключить собственный CSS через параметр style-url.</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">🔧</div>
                         <h3>Гибкая настройка</h3>
-                        <p>
-                            Настраивайте ссылку на политику конфиденциальности, отображение иконки и
-                            другие параметры.
-                        </p>
+                        <p>Настраиваются ссылки, срок cookie, имя cookie, классы кнопки и режим аналитики.</p>
                     </div>
                 </div>
             </div>
@@ -109,9 +96,7 @@
                         alt="Пример модального окна Cookies Modal"
                     />
                 </div>
-                <p class="preview-caption">
-                    Пример модального окна без иконки и ссылкой на политику конфиденциальности
-                </p>
+                <p class="preview-caption">Пример стандартного модального окна Cookies Modal.</p>
             </div>
         </section>
 
@@ -124,23 +109,23 @@
                         <div class="code-title">Базовое подключение</div>
                         <button class="copy-btn" onclick="copyCode(this)">Копировать</button>
                     </div>
-                    <pre><code>&lt;!-- Подключение скрипта с обязательным атрибутом defer --&gt;
-&lt;script src="cookies.min.js" defer&gt;&lt;/script&gt;</code></pre>
+                    <pre><code>&lt;script src="cookies.min.js" defer&gt;&lt;/script&gt;</code></pre>
                 </div>
 
                 <div class="code-example">
                     <div class="code-header">
-                        <div class="code-title">С ссылкой на политику конфиденциальности</div>
+                        <div class="code-title">Политика конфиденциальности</div>
                         <button class="copy-btn" onclick="copyCode(this)">Копировать</button>
                     </div>
-                    <pre><code>&lt;script src="cookies.min.js?policy-url=https://example.com/privacy" async defer&gt;&lt;/script&gt;</code></pre>
+                    <pre><code>&lt;script src="cookies.min.js?policy-url=https://example.com/privacy" defer&gt;&lt;/script&gt;</code></pre>
                 </div>
+
                 <div class="code-example">
                     <div class="code-header">
-                        <div class="code-title">С ссылкой на согласие на обработку ПД</div>
+                        <div class="code-title">Согласие на обработку ПД</div>
                         <button class="copy-btn" onclick="copyCode(this)">Копировать</button>
                     </div>
-                    <pre><code>&lt;script src="cookies.min.js?agree-url=https://example.com/soglasie" async defer&gt;&lt;/script&gt;</code></pre>
+                    <pre><code>&lt;script src="cookies.min.js?agree-url=https://example.com/soglasie" defer&gt;&lt;/script&gt;</code></pre>
                 </div>
 
                 <div class="code-example">
@@ -148,15 +133,15 @@
                         <div class="code-title">С отображением иконки</div>
                         <button class="copy-btn" onclick="copyCode(this)">Копировать</button>
                     </div>
-                    <pre><code>&lt;script src="cookies.min.js?icon=true&amp;policy-url=https://example.com/privacy" async defer&gt;&lt;/script&gt;</code></pre>
+                    <pre><code>&lt;script src="cookies.min.js?icon=true&amp;policy-url=https://example.com/privacy" defer&gt;&lt;/script&gt;</code></pre>
                 </div>
 
                 <div class="code-example">
                     <div class="code-header">
                         <div class="code-title">Класс для кнопки</div>
-                        <button class="copy-btn" onclick="copyCode(this)">Скопировать</button>
+                        <button class="copy-btn" onclick="copyCode(this)">Копировать</button>
                     </div>
-                    <pre><code>&lt;script src="cookies.min.js?btn-class=test" async defer&gt;&lt;/script&gt;</code></pre>
+                    <pre><code>&lt;script src="cookies.min.js?btn-class=btn+btn-primary" defer&gt;&lt;/script&gt;</code></pre>
                 </div>
 
                 <div class="code-example">
@@ -164,42 +149,149 @@
                         <div class="code-title">С кастомными стилями</div>
                         <button class="copy-btn" onclick="copyCode(this)">Копировать</button>
                     </div>
-                    <pre><code>&lt;script src="cookies.min.js?style-url=https://example.com/my-cookies-styles.css&amp;icon=true" async defer&gt;&lt;/script&gt;</code></pre>
+                    <pre><code>&lt;script src="cookies.min.js?style-url=https://example.com/cookies.css" defer&gt;&lt;/script&gt;</code></pre>
                 </div>
 
                 <div class="code-example">
                     <div class="code-header">
-                        <div class="code-title">Количество дней (сессия при 0)</div>
+                        <div class="code-title">Срок жизни cookie</div>
                         <button class="copy-btn" onclick="copyCode(this)">Копировать</button>
                     </div>
-                    <pre><code>&lt;script src="cookies.min.js?days=5" async defer&gt;&lt;/script&gt;</code></pre>
+                    <pre><code>&lt;script src="cookies.min.js?days=30" defer&gt;&lt;/script&gt;</code></pre>
                 </div>
 
                 <div class="code-example">
                     <div class="code-header">
-                        <div class="code-title">Установить свое название куки</div>
+                        <div class="code-title">Сессионная cookie</div>
                         <button class="copy-btn" onclick="copyCode(this)">Копировать</button>
                     </div>
-                    <pre><code>&lt;script src="cookies.min.js?cookie_name=cookie-name" async defer&gt;&lt;/script&gt;</code></pre>
+                    <pre><code>&lt;script src="cookies.min.js?days=0" defer&gt;&lt;/script&gt;</code></pre>
                 </div>
 
                 <div class="code-example">
                     <div class="code-header">
-                        <div class="code-title">Полный пример с всеми параметрами</div>
+                        <div class="code-title">Своё имя cookie</div>
                         <button class="copy-btn" onclick="copyCode(this)">Копировать</button>
                     </div>
-                    <pre><code>&lt;script src="cookies.min.js?policy-url=https://example.com/privacy&amp;das=5&icon=true&amp;style-url=https://example.com/custom.css&btn-class=test+test-one&cookie-name=new_name" async defer&gt;&lt;/script&gt;</code></pre>
+                    <pre><code>&lt;script src="cookies.min.js?cookie-name=cookie_consent" defer&gt;&lt;/script&gt;</code></pre>
+                </div>
+
+                <div class="code-example">
+                    <div class="code-header">
+                        <div class="code-title">Полный пример</div>
+                        <button class="copy-btn" onclick="copyCode(this)">Копировать</button>
+                    </div>
+                    <pre><code>&lt;script src="cookies.min.js?policy-url=/privacy&amp;agree-url=/soglasie&amp;days=30&amp;icon=true&amp;style-url=/css/cookies.css&amp;btn-class=btn+btn-primary&amp;cookie-name=cookie_consent" defer&gt;&lt;/script&gt;</code></pre>
                 </div>
 
                 <div class="alert alert-success">
-                    <strong>Важно:</strong> Для более эффективной работы скриптов рекомендуется использовать атрибуты <code>async</code> или <code>defer</code>.
+                    <strong>Рекомендуется:</strong> подключать Cookies Modal с атрибутом
+                    <code>defer</code>. Так скрипт начнёт работу после разбора HTML и
+                    <code>document.body</code> уже будет доступен.
+                </div>
+            </div>
+        </section>
+
+        <section id="metrika" style="background: var(--white)">
+            <div class="container">
+                <h2 class="section-title">Яндекс.Метрика и согласие</h2>
+
+                <div class="alert alert-warning">
+                    <strong>Важно:</strong> режимы работы Метрики являются взаимоисключающими.
+                    Используйте либо стандартный режим, либо <code>metrika-mode=template</code>.
+                    Не подключайте один и тот же счётчик одновременно обоими способами.
+                </div>
+
+                <h3>Стандартный режим</h3>
+                <p>
+                    Используется по умолчанию. Cookies Modal управляет найденными счётчиками через
+                    <code>window.disableYaCounter&lt;ID&gt;</code>. Этот режим удобен для уже существующих
+                    сайтов, где код Метрики подключён обычным способом.
+                </p>
+
+                <div class="code-example">
+                    <div class="code-header">
+                        <div class="code-title">Cookies Modal в стандартном режиме</div>
+                        <button class="copy-btn" onclick="copyCode(this)">Копировать</button>
+                    </div>
+                    <pre><code>&lt;script src="cookies.min.js" defer&gt;&lt;/script&gt;
+
+&lt;!-- Обычный код Яндекс.Метрики --&gt;
+&lt;script&gt;
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,
+        a.parentNode.insertBefore(k,a)
+    })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(12345678, 'init', {
+        clickmap: true,
+        trackLinks: true,
+        accurateTrackBounce: true
+    });
+&lt;/script&gt;</code></pre>
+                </div>
+
+                <h3>Строгий режим через template</h3>
+                <p>
+                    В режиме <code>template</code> код аналитики находится внутри HTML
+                    <code>&lt;template&gt;</code>. Содержимое template инертно: браузер не выполняет
+                    находящиеся внутри него скрипты и не загружает Метрику до получения согласия.
+                </p>
+
+                <div class="code-example">
+                    <div class="code-header">
+                        <div class="code-title">Яндекс.Метрика через template</div>
+                        <button class="copy-btn" onclick="copyCode(this)">Копировать</button>
+                    </div>
+                    <pre><code>&lt;template data-cookie-consent="analytics"&gt;
+    &lt;script&gt;
+        (function(m,e,t,r,i,k,a){
+            m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();
+            for (var j = 0; j &lt; document.scripts.length; j++) {
+                if (document.scripts[j].src === r) return;
+            }
+            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,
+            a.parentNode.insertBefore(k,a)
+        })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+        ym(12345678, 'init', {
+            clickmap: true,
+            webvisor: true,
+            trackLinks: true,
+            accurateTrackBounce: true
+        });
+    &lt;/script&gt;
+&lt;/template&gt;
+
+&lt;script src="cookies.min.js?metrika-mode=template" defer&gt;&lt;/script&gt;</code></pre>
+                </div>
+
+                <div class="alert alert-success">
+                    <strong>До согласия:</strong> содержимое
+                    <code>&lt;template data-cookie-consent="analytics"&gt;</code> не выполняется.
+                    После нажатия кнопки согласия Cookies Modal активирует template и запускает
+                    находящиеся в нём скрипты.
                 </div>
 
                 <div class="alert alert-warning">
-                    <strong>Совет:</strong> Для параметров policy-url и style-url можно использовать
-                    как абсолютные, так и относительные URL — оба варианта поддерживаются. Выбор
-                    зависит от структуры вашего сайта и контекста использования.
+                    <strong>Не размещайте <code>noscript</code>-пиксель Метрики вне template:</strong>
+                    иначе браузер без JavaScript сможет выполнить запрос независимо от состояния
+                    согласия. Если он нужен, его использование должно отдельно соответствовать вашей
+                    политике обработки данных.
                 </div>
+
+                <h3>Совместимость со старой версией</h3>
+                <p>
+                    Ранние версии Cookies Modal использовали cookie
+                    <code>cookieAccepted=true</code>. Новая версия распознаёт это значение как уже
+                    полученное согласие и записывает актуальную cookie
+                    <code>c_ok=true</code> либо cookie, указанную через <code>cookie-name</code>.
+                    Благодаря этому после обновления пользователь не получает повторное окно только
+                    из-за смены имени cookie.
+                </p>
             </div>
         </section>
 
@@ -222,43 +314,52 @@
                                 <td><span class="param-name">policy-url</span></td>
                                 <td>Ссылка на политику конфиденциальности</td>
                                 <td>/politika</td>
-                                <td>https://example.com/privacy</td>
+                                <td>/privacy</td>
                             </tr>
                             <tr>
                                 <td><span class="param-name">agree-url</span></td>
-                                <td>Ссылка на согласие на обработку ПД</td>
+                                <td>Ссылка на согласие на обработку персональных данных</td>
                                 <td>/soglasie</td>
-                                <td>https://example.com/soglasie</td>
+                                <td>/personal-data-consent</td>
                             </tr>
                             <tr>
                                 <td><span class="param-name">icon</span></td>
-                                <td>Отображение иконки куки</td>
+                                <td>Отображение иконки cookie</td>
                                 <td>false</td>
                                 <td>true</td>
                             </tr>
                             <tr>
                                 <td><span class="param-name">style-url</span></td>
-                                <td>Ссылка на кастомный файл стилей</td>
+                                <td>Ссылка на пользовательский CSS</td>
                                 <td>Не задано</td>
-                                <td>https://example.com/styles.css</td>
+                                <td>/css/cookies.css</td>
                             </tr>
                             <tr>
                                 <td><span class="param-name">btn-class</span></td>
-                                <td>CSS-класс, который будет применён к кнопке согласия</td>
+                                <td>CSS-классы кнопки согласия</td>
                                 <td>Не задано</td>
-                                <td>test | test+test-small | test%20test</td>
+                                <td>btn+btn-primary</td>
                             </tr>
                             <tr>
                                 <td><span class="param-name">cookie-name</span></td>
-                                <td>Изменение стандартного имени куки</td>
+                                <td>Имя cookie, в которой хранится согласие</td>
                                 <td>c_ok</td>
-                                <td>new_name</td>
+                                <td>cookie_consent</td>
                             </tr>
                             <tr>
                                 <td><span class="param-name">days</span></td>
-                                <td>Задать количество дней жизни куки (сессия при 0)</td>
-                                <td>Не задано</td>
-                                <td>5</td>
+                                <td>Срок жизни cookie в днях. Значение 0 создаёт сессионную cookie</td>
+                                <td>365</td>
+                                <td>30</td>
+                            </tr>
+                            <tr>
+                                <td><span class="param-name">metrika-mode</span></td>
+                                <td>
+                                    Режим управления аналитикой. Значение template активирует только
+                                    элементы template[data-cookie-consent="analytics"] после согласия
+                                </td>
+                                <td>Стандартный режим</td>
+                                <td>template</td>
                             </tr>
                         </tbody>
                     </table>
@@ -266,115 +367,22 @@
 
                 <div class="code-example">
                     <div class="code-header flex-col align-start">
-                        <div class="code-title">Пример пользовательского текста о файлах cookie</div>
+                        <div class="code-title">Пользовательский текст уведомления</div>
                         <div>
-                            <p class="alert-warning">Важно: данная часть должна быть объявлена раньше инициализации скрипта</p>
+                            <p class="alert-warning">
+                                Переменная должна быть объявлена до подключения cookies.min.js.
+                            </p>
                         </div>
                     </div>
-                    <pre><code>&lt;script&gt;<br>    const textCookies = "Здесь может располагаться ваш текст о файлах cookie. {politika target='_blank'}Так прописывается политика к тексте{/politika}. {soglasie target='_blank'}А так согласие{/soglasie}"<br>&lt;/script&gt;</code></pre>
+                    <pre><code>&lt;script&gt;
+    const textCookies = "Используем cookie. {politika target='_blank'}Политика конфиденциальности{/politika}. {soglasie target='_blank'}Согласие на обработку ПД{/soglasie}";
+&lt;/script&gt;
+&lt;script src="cookies.min.js" defer&gt;&lt;/script&gt;</code></pre>
                 </div>
 
-                <div class="code-example">
-                    <div class="code-header">
-                        <div class="code-title">Пример кастомного CSS файла</div>
-                        <button class="copy-btn" onclick="copyCode(this)">Копировать</button>
-                    </div>
-                    <pre>
-                <code>
-/* custom-cookies-styles.css */
-:root {
-    /* Основные цвета и фон */
-    --cookies-bg: hsl(220, 26%, 14%);
-
-    /* Тень */
-    --cookies-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.3);
-
-    /* Радиус и отступы */
-    --cookies-radius: 15px;
-    --cookies-padding: 25px;
-
-    /* Позиционирование */
-    --cookies-left: 30px;
-    --cookies-bottom: 30px;
-    --cookies-left-mobile: 15px;
-    --cookies-bottom-mobile: 15px;
-
-    /* Отступы между элементами */
-    --cookies-line-gap: 15px;
-    --cookies-marginn-top-elements: 20px;
-
-    /* Иконка */
-    --cookies-icon-size: 45px;
-    --cookies-icon-font-size: 20px;
-    --cookies-icon-border: 50%;
-    --cookies-icon-bg: hsl(142, 71%, 45%);
-    --cookies-icon-color: hsl(0, 0%, 100%);
-
-    /* Заголовок */
-    --cookies-title-size: 1.4rem;
-    --cookies-margin-top: 0;
-    --cookies-margin-bottom: 10px;
-    --cookies-margin-left: 0;
-    --cookies-margin-right: 0;
-
-    /* Текст */
-    --cookies-text-color: hsl(0, 0%, 90%);
-    --cookies-text-link: hsl(142, 71%, 65%);
-    --cookies-text-link-hover: hsl(142, 71%, 75%);
-
-    /* Кнопка */
-    --cookies-btn-bg: hsl(142, 71%, 45%);
-    --cookies-btn-bg-hover: hsl(142, 71%, 55%);
-    --cookies-btn-text-color: hsl(0, 0%, 100%);
-    --cookies-btn-text-color-hover: hsl(0, 0%, 100%);
-    --coolies-btn-radius: 8px;
-    --cookies-btn-padding: 12px 25px;
-}
-
-/* Дополнительные стили для темной темы */
-#cookies {
-    backdrop-filter: blur(10px);
-    border: 1px solid hsla(0, 0%, 100%, 0.1);
-}
-
-#cookies-title {
-    color: hsl(0, 0%, 95%);
-    font-weight: 600;
-}
-
-#cookies-btn {
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
-}
-
-#cookies-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(76, 175, 80, 0.4);
-}
-
-/* Анимация появления */
-#cookies {
-    animation: slideUp 0.4s ease-out;
-}
-
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-                </code>
-            </pre>
-                </div>
-
-                <div class="alert alert-error">
-                    <strong>Важно:</strong> Убедитесь, что ваш кастомный CSS файл доступен по
-                    указанному URL.
+                <div class="alert alert-warning">
+                    Для <code>policy-url</code>, <code>agree-url</code> и <code>style-url</code> можно
+                    использовать как абсолютные, так и относительные URL.
                 </div>
             </div>
         </section>
@@ -392,8 +400,8 @@
 
                     <div class="download-options">
                         <div class="download-option">
-                            <h4>Минифицированная</h4>
-                            <p>Только готовый к использованию файл</p>
+                            <h4>Минифицированная версия</h4>
+                            <p>Готовый файл для подключения на сайт.</p>
                             <a
                                 href="cookies.min.js"
                                 class="download-btn"
@@ -403,10 +411,6 @@
                             >
                         </div>
                     </div>
-
-                    <!--            <div class="alert alert-success">-->
-                    <!--                <strong>GitHub:</strong> Исходный код доступен на <a href="#" style="color: #2e7d32; font-weight: bold;">GitHub</a>-->
-                    <!--            </div>-->
                 </div>
             </div>
         </section>
@@ -423,14 +427,13 @@
         <div id="cookies" class="noshow">
             <div id="cookies-wrapper">
                 <div class="cookies-line">
-                    <div id="cookies-icon">
-                        🍪
-                    </div>
+                    <div id="cookies-icon">🍪</div>
                     <h2 id="cookies-title">Наш сайт использует cookies</h2>
                 </div>
                 <div class="cookies-line">
                     <p id="cookies-text">
-                        Мы используем cookies и систему аналитики Яндекс.Метрика, чтобы понять, как вы пользуетесь сайтом, и сделать его лучше.<br>
+                        Мы используем cookies и систему аналитики Яндекс.Метрика, чтобы понять, как вы
+                        пользуетесь сайтом, и сделать его лучше.<br />
                         Продолжая пользоваться сайтом, вы соглашаетесь на использование cookies.
                     </p>
                 </div>
@@ -441,20 +444,29 @@
             </div>
         </div>
 
-        
-        <!-- Yandex.Metrika counter -->
+        <!-- Yandex.Metrika counter for the documentation site -->
         <script type="text/javascript">
             (function(m,e,t,r,i,k,a){
                 m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
                 m[i].l=1*new Date();
-                for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-                k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+                for (var j = 0; j < document.scripts.length; j++) {
+                    if (document.scripts[j].src === r) return;
+                }
+                k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,
+                a.parentNode.insertBefore(k,a)
             })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
 
             ym(103322248, 'init', {clickmap:true, accurateTrackBounce:true, trackLinks:true});
         </script>
-        <noscript><div><img src="https://mc.yandex.ru/watch/103322248" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+        <noscript>
+            <div>
+                <img
+                    src="https://mc.yandex.ru/watch/103322248"
+                    style="position:absolute; left:-9999px;"
+                    alt=""
+                />
+            </div>
+        </noscript>
         <!-- /Yandex.Metrika counter -->
-
     </body>
 </html>
