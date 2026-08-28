@@ -34,5 +34,33 @@ jobs:
 
           git remote add gitlab "https://oauth2:${GITLAB_TOKEN}@gitlab.com/gbroccoli/cookie-consent-modal.git"
 
+      - name: Check whether GitLab already has this commit
+        id: sync_check
+        run: |
+          git fetch gitlab main
+
+          GITHUB_SHA="$(git rev-parse HEAD)"
+          GITLAB_SHA="$(git rev-parse FETCH_HEAD)"
+
+          echo "GitHub main: $GITHUB_SHA"
+          echo "GitLab main: $GITLAB_SHA"
+
+          if [ "$GITHUB_SHA" = "$GITLAB_SHA" ]; then
+            echo "needs_sync=false" >> "$GITHUB_OUTPUT"
+            echo "GitLab already has this commit. Skipping mirror push."
+            exit 0
+          fi
+
+          if git merge-base --is-ancestor "$GITLAB_SHA" "$GITHUB_SHA"; then
+            echo "needs_sync=true" >> "$GITHUB_OUTPUT"
+            echo "GitLab is behind GitHub. Mirror push is required."
+            exit 0
+          fi
+
+          echo "GitLab main is not an ancestor of GitHub main. Refusing to mirror automatically."
+          echo "This usually means GitLab has independent commits or the repositories diverged."
+          exit 1
+
       - name: Push main to GitLab
+        if: steps.sync_check.outputs.needs_sync == 'true'
         run: git push gitlab HEAD:main
