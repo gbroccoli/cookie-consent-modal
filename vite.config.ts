@@ -26,6 +26,7 @@ export default defineConfig({
         rollupOptions: {
             input: path.resolve(__dirname, 'cookies.ts'),
             output: {
+                format: 'iife',
                 entryFileNames: 'cookies.min.js',
                 assetFileNames: () => {
                     throw new Error('Assets are not allowed');
