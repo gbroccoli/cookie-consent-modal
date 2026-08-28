@@ -34,9 +34,21 @@ export class TemplateAnalytics {
             });
 
             script.textContent = sourceScript.textContent;
-            sourceScript.replaceWith(script);
+
+            const parent = sourceScript.parentNode;
+
+            if (parent) {
+                parent.replaceChild(script, sourceScript);
+            }
         });
 
-        template.replaceWith(fragment);
+        const parent = template.parentNode;
+
+        if (!parent) {
+            return;
+        }
+
+        parent.insertBefore(fragment, template);
+        parent.removeChild(template);
     }
 }
