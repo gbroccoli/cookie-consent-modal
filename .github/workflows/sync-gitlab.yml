@@ -1,16 +1,18 @@
-name: Sync main to GitLab
+name: Sync GitHub to GitLab
 
 on:
   push:
     branches:
       - main
+    tags:
+      - 'v*'
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: sync-gitlab-main
+  group: sync-gitlab
   cancel-in-progress: false
 
 jobs:
@@ -34,26 +36,26 @@ jobs:
 
           git remote add gitlab "https://oauth2:${GITLAB_TOKEN}@gitlab.com/gbroccoli/cookie-consent-modal.git"
 
-      - name: Check whether GitLab already has this commit
+      - name: Check whether GitLab main needs sync
         id: sync_check
         run: |
-          git fetch gitlab main
+          git fetch gitlab main --tags
 
-          GITHUB_SHA="$(git rev-parse HEAD)"
-          GITLAB_SHA="$(git rev-parse FETCH_HEAD)"
+          GITHUB_MAIN_SHA="$(git rev-parse origin/main)"
+          GITLAB_MAIN_SHA="$(git rev-parse gitlab/main)"
 
-          echo "GitHub main: $GITHUB_SHA"
-          echo "GitLab main: $GITLAB_SHA"
+          echo "GitHub main: $GITHUB_MAIN_SHA"
+          echo "GitLab main: $GITLAB_MAIN_SHA"
 
-          if [ "$GITHUB_SHA" = "$GITLAB_SHA" ]; then
+          if [ "$GITHUB_MAIN_SHA" = "$GITLAB_MAIN_SHA" ]; then
             echo "needs_sync=false" >> "$GITHUB_OUTPUT"
-            echo "GitLab already has this commit. Skipping mirror push."
+            echo "GitLab main is already up to date."
             exit 0
           fi
 
-          if git merge-base --is-ancestor "$GITLAB_SHA" "$GITHUB_SHA"; then
+          if git merge-base --is-ancestor "$GITLAB_MAIN_SHA" "$GITHUB_MAIN_SHA"; then
             echo "needs_sync=true" >> "$GITHUB_OUTPUT"
-            echo "GitLab is behind GitHub. Mirror push is required."
+            echo "GitLab is behind GitHub. Main sync is required."
             exit 0
           fi
 
@@ -63,4 +65,7 @@ jobs:
 
       - name: Push main to GitLab
         if: steps.sync_check.outputs.needs_sync == 'true'
-        run: git push gitlab HEAD:main
+        run: git push gitlab origin/main:main
+
+      - name: Push release tags to GitLab
+        run: git push gitlab --tags
