@@ -36,36 +36,25 @@ jobs:
 
           git remote add gitlab "https://oauth2:${GITLAB_TOKEN}@gitlab.com/gbroccoli/cookie-consent-modal.git"
 
-      - name: Check whether GitLab main needs sync
-        id: sync_check
+      - name: Fetch GitLab state
+        id: sync_state
         run: |
           git fetch gitlab main --tags
 
           GITHUB_MAIN_SHA="$(git rev-parse origin/main)"
           GITLAB_MAIN_SHA="$(git rev-parse gitlab/main)"
 
+          echo "github_main_sha=$GITHUB_MAIN_SHA" >> "$GITHUB_OUTPUT"
+          echo "gitlab_main_sha=$GITLAB_MAIN_SHA" >> "$GITHUB_OUTPUT"
+
           echo "GitHub main: $GITHUB_MAIN_SHA"
           echo "GitLab main: $GITLAB_MAIN_SHA"
 
-          if [ "$GITHUB_MAIN_SHA" = "$GITLAB_MAIN_SHA" ]; then
-            echo "needs_sync=false" >> "$GITHUB_OUTPUT"
-            echo "GitLab main is already up to date."
-            exit 0
-          fi
-
-          if git merge-base --is-ancestor "$GITLAB_MAIN_SHA" "$GITHUB_MAIN_SHA"; then
-            echo "needs_sync=true" >> "$GITHUB_OUTPUT"
-            echo "GitLab is behind GitHub. Main sync is required."
-            exit 0
-          fi
-
-          echo "GitLab main is not an ancestor of GitHub main. Refusing to mirror automatically."
-          echo "This usually means GitLab has independent commits or the repositories diverged."
-          exit 1
-
-      - name: Push main to GitLab
-        if: steps.sync_check.outputs.needs_sync == 'true'
-        run: git push gitlab origin/main:main
+      - name: Sync main to GitLab
+        if: steps.sync_state.outputs.github_main_sha != steps.sync_state.outputs.gitlab_main_sha
+        run: |
+          git push gitlab origin/main:main \
+            --force-with-lease=refs/heads/main:${{ steps.sync_state.outputs.gitlab_main_sha }}
 
       - name: Push release tags to GitLab
         run: git push gitlab --tags
